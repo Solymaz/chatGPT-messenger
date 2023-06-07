@@ -36,4 +36,7 @@ body {
   .chatRow {
     @apply flex p-3 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 h-11 flex-shrink-0 flex-grow;
   }
+  .button {
+    @apply bg-[#0da47f] rounded-md p-3 text-sm mt-3 hover:bg-[#1b7f64];
+  }
 }
