@@ -1,5 +1,7 @@
+"use client";
 import React from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   return (
@@ -13,7 +15,9 @@ export default function Login() {
       <p>Welcome to ChatGPT</p>
       <p>Log in with your OpenAI account to continue</p>
       <div className="flex flex-row gap-3">
-        <button className="button">Log in</button>
+        <button className="button" onClick={() => signIn("google")}>
+          Log in
+        </button>
         <button className="button">Sign up</button>
       </div>
     </div>
