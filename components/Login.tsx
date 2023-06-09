@@ -7,7 +7,7 @@ export default function Login() {
   return (
     <div className="bg-[#343541] h-screen flex flex-col items-center justify-center text-center font-light leading-9">
       <Image
-        src="/ChatGPT_logo.svg"
+        src="/chatGPT_logo.svg"
         alt="ChatGPT logo"
         height={55}
         width={55}
