@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import Menu from "./Menu";
 import NewChat from "./NewChat";
 
 export default function SideBar() {
@@ -16,15 +17,18 @@ export default function SideBar() {
         </div>
       </div>
       {session && (
-        <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-700/50">
-          <img
-            src={session.user?.image!}
-            alt="profile image"
-            className="h-10 w-10 rounded-full"
-          />
-          <div>{session.user?.email!}</div>
-          <img src="/threeDots.svg" alt="three dots icon" />
-        </button>
+        <>
+          <button className="flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-700/50">
+            <img
+              src={session.user?.image!}
+              alt="profile image"
+              className="h-10 w-10 rounded-full"
+            />
+            <div>{session.user?.email!}</div>
+            <img src="/threeDots.svg" alt="three dots icon" />
+          </button>
+          <Menu />
+        </>
       )}
     </div>
   );
