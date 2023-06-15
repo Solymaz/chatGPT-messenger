@@ -16,7 +16,7 @@ export default function SideBar() {
     session &&
       query(
         collection(db, "users", session.user?.email!, "chats"),
-        orderBy("createAt", "asc") // the messages will be in time order (ascending)
+        orderBy("createdAt", "asc") // the messages will be in time order (ascending)
       )
   );
 
@@ -39,13 +39,18 @@ export default function SideBar() {
             className={`flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-700/50
               ${showMenu && "bg-gray-700/50"}`}
           >
-            <Image
+            <img
               src={session.user?.image!}
               alt="profile image"
               className="h-10 w-10 rounded-full"
             />
             <div>{session.user?.email!}</div>
-            <Image src="/threeDots.svg" alt="three dots icon" />
+            <Image
+              src="/threeDots.svg"
+              alt="three dots icon"
+              height={15}
+              width={15}
+            />
           </button>
         </>
       )}
