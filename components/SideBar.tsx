@@ -4,15 +4,20 @@ import { useSession } from "next-auth/react";
 import Menu from "./Menu";
 import NewChat from "./NewChat";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { collection, orderBy, query } from "firebase/firestore";
 import { db } from "@/firabese";
 import ChatRow from "./ChatRow";
+import Image from "next/image";
 
 export default function SideBar() {
   const { data: session } = useSession();
   const [showMenu, setShowMenu] = useState(false);
   const [chats, loading, error] = useCollection(
-    session && collection(db, "users", session.user?.email!, "chats")
+    session &&
+      query(
+        collection(db, "users", session.user?.email!, "chats"),
+        orderBy("createAt", "asc") // the messages will be in time order (ascending)
+      )
   );
 
   return (
@@ -34,13 +39,13 @@ export default function SideBar() {
             className={`flex w-full items-center gap-2.5 rounded-md px-3 py-3 text-sm transition-colors duration-200 hover:bg-gray-700/50
               ${showMenu && "bg-gray-700/50"}`}
           >
-            <img
+            <Image
               src={session.user?.image!}
               alt="profile image"
               className="h-10 w-10 rounded-full"
             />
             <div>{session.user?.email!}</div>
-            <img src="/threeDots.svg" alt="three dots icon" />
+            <Image src="/threeDots.svg" alt="three dots icon" />
           </button>
         </>
       )}
