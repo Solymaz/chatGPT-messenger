@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { collection, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/firabese";
 
 type Props = {
@@ -24,6 +24,10 @@ export default function ChatRow({ id }: Props) {
     setIsActive(pathname.includes(id));
   }, [pathname, id]);
 
+  const removeChat = async () => {
+    await deleteDoc(doc(db, "users", session?.user?.email!, "chats", id));
+    router.replace("/");
+  };
   return (
     <Link
       href={`/chat/${id}}`}
@@ -36,7 +40,9 @@ export default function ChatRow({ id }: Props) {
         Chat title
       </p>
       {isActive && (
-        <Image src="/bin.svg" alt="delete icon" height={15} width={15} />
+        <button onClick={removeChat}>
+          <Image src="/bin.svg" alt="delete icon" height={15} width={15} />
+        </button>
       )}
     </Link>
   );
