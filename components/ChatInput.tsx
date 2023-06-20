@@ -1,27 +1,28 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 
 export default function ChatInput(chatId: string) {
   const [prompt, setPrompt] = useState("");
 
   return (
-    <div className="bg-[#40414f] text-[#6a6b7a] rounded-lg text-sm ">
-      <form className="p-5 space-x-5 flex">
+    <div className="bg-[#40414f] text-[#6a6b7a] rounded-lg text-sm w-11/12 mb-10 lg:w-4/6">
+      <form className="p-3 space-x-5 flex">
         <input
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           type="text"
           placeholder="Send a message"
-          className="bg-transparent focus:outline-none flex-1 "
+          className={`bg-transparent focus:outline-none flex-1 ${
+            prompt && "text-white"
+          }`}
         />
         <button
           type="submit"
           disabled={!prompt}
           className={`${
             prompt && "bg-[#18c37d]"
-          } rounded-md p-1 h-8 w-8 m-1 place-content-center items-center flex`}
+          } rounded-md p-1 h-8 w-8 m-1 place-content-center items-center flex transition-colors duration-200`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
