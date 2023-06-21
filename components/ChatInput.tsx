@@ -1,13 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { useSession } from "next-auth/react";
+import { FormEvent, useState } from "react";
+import { db } from "@/firabese";
 
 export default function ChatInput(chatId: string) {
   const [prompt, setPrompt] = useState("");
+  const { data: session } = useSession();
+
+  const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!prompt) return;
+    const input = prompt.trim();
+    setPrompt("");
+    const message: Message = {
+      text: input,
+      createdAt: serverTimestamp(),
+      user: {
+        _id: session?.user?.email!,
+        name: session?.user?.name!,
+        avatar:
+          session?.user?.image! ||
+          `https://ui-avatars.com/api/?name=${session?.user?.name}`,
+      },
+    };
+
+    await addDoc(
+      collection(
+        db,
+        "users",
+        session?.user?.email!,
+        "chats",
+        chatId,
+        "messages"
+      ),
+      message
+    );
+  };
 
   return (
     <div className="bg-[#40414f] text-[#6a6b7a] rounded-lg text-sm w-11/12 mb-10 lg:w-4/6">
-      <form className="p-3 space-x-5 flex">
+      <form onSubmit={sendMessage} className="p-3 space-x-5 flex">
         <input
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
